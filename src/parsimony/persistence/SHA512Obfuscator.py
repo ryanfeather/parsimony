@@ -19,8 +19,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
-import parsimony
+import hashlib
+from DataObfuscator import DataObfuscator
 
-def generate(key,function,**parameters):
-    wrapper = parsimony.configuration.get_callable_wrapper(key,function,**parameters) 
-    return wrapper.generate()
+class SHA512Obfuscator(DataObfuscator):
+    '''
+    classdocs
+    '''
+
+
+    def __init__(self):
+        '''
+        Constructor
+        '''
+        super(SHA512Obfuscator, self).__init__()
+
+
+    def obfuscate(self,data):
+        hashable_representation = self._hashable_representation(data)
+        hasher = hashlib.sha512()
+        hasher.update(hashable_representation)
+        return hasher.digest()

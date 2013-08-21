@@ -19,8 +19,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
-import parsimony
+import cStringIO
+import cPickle
 
-def generate(key,function,**parameters):
-    wrapper = parsimony.configuration.get_callable_wrapper(key,function,**parameters) 
-    return wrapper.generate()
+class DataObfuscator(object):
+    
+    def __init__(self):
+        pass
+    
+    def _hashable_representation(self,data):
+        #in the future, a "library" of representation generators could be usable
+        #for efficiency gains
+        ioStream = cStringIO.StringIO()
+        cPickle.dump(data, ioStream, protocol=cPickle.HIGHEST_PROTOCOL)
+        hashable = ioStream.getvalue()
+        ioStream.close() 
+        return hashable

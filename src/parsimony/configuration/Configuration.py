@@ -20,7 +20,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 import parsimony
+import os
 
-def generate(key,function,**parameters):
-    wrapper = parsimony.configuration.get_callable_wrapper(key,function,**parameters) 
-    return wrapper.generate()
+__store = None
+#TODO, move any directory creation or other initialization into the configurable objects
+def get_store():
+    global __store
+    if not os.path.exists('.parsimony'):
+        os.makedirs('.parsimony')
+    if __store is None:
+        __store = parsimony.persistence.PickledParameterStore('.parsimony/p_store') 
+    return __store
+
+__obfuscator = None
+def get_obfuscator():
+    
+    global __obfuscator
+    if __obfuscator is None:
+        __obfuscator = parsimony.persistence.SHA512Obfuscator() 
+    return __obfuscator
+
+def get_callable_wrapper(key,function,**parameters):
+    if not os.path.exists('.parsimony/wrapped_results'):
+    
+        os.makedirs('.parsimony/wrapped_results')
+
+    return parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results',key,function,**parameters)

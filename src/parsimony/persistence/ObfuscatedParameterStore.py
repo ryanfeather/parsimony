@@ -20,7 +20,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 import parsimony
+from ParameterStore import ParameterStore
 
-def generate(key,function,**parameters):
-    wrapper = parsimony.configuration.get_callable_wrapper(key,function,**parameters) 
-    return wrapper.generate()
+class ObfuscatedParameterStore(ParameterStore):
+    '''
+    classdocs
+    '''
+
+
+    def __init__(self):
+        '''
+        Constructor
+        '''
+        self._obfuscator = parsimony.configuration.get_obfuscator()
+        super(ObfuscatedParameterStore, self).__init__()
+
+    def compare(self,value,parameter_key):
+        obfuscated_value = self._obfuscator.obfuscate(value)
+        return self._obfuscated_compare(obfuscated_value,parameter_key)
+        
+    def update(self,key,value,parameter_keys=None):
+        obfuscated_value = self._obfuscator.obfuscate(value)
+        return self._obfuscated_update(key,obfuscated_value,parameter_keys)
+
+    

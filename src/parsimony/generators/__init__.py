@@ -19,8 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
-import parsimony
-
-def generate(key,function,**parameters):
-    wrapper = parsimony.configuration.get_callable_wrapper(key,function,**parameters) 
-    return wrapper.generate()
+from Generator import Generator
+from TextFile import TextFile
+from PickledCallableWrapper import PickledCallableWrapper
