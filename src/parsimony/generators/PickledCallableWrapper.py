@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 from parsimony.generators.Generator import Generator
-import cPickle
+import pickle
 import os
 import string
 
@@ -28,7 +28,7 @@ class PickledCallableWrapper(Generator):
     
     def __init__(self,directory,key,function,**parameters):
         self._function = function #keep separate references to avoid copying later
-        self._param_keys = parameters.keys() 
+        self._param_keys = list(parameters.keys()) 
         self._store_location = self._generate_store_location(directory, key)
         super(PickledCallableWrapper, self).__init__(key,function=function,**parameters)
 
@@ -43,14 +43,14 @@ class PickledCallableWrapper(Generator):
             
     def load(self):
         
-        with open(self._store_location,'r') as result_file:
-            result = cPickle.load(result_file)
+        with open(self._store_location,'rb') as result_file:
+            result = pickle.load(result_file)
         return result
     
     def store(self,value):
         
-        with open(self._store_location,'w') as result_file:
-            cPickle.dump(value,result_file)
+        with open(self._store_location,'wb') as result_file:
+            pickle.dump(value,result_file)
         
     
     def _generate_store_location(self,directory,key):

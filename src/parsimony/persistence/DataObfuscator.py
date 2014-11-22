@@ -19,8 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
-import cStringIO
-import cPickle
+import io
+import pickle
 
 class DataObfuscator(object):
     
@@ -30,8 +30,5 @@ class DataObfuscator(object):
     def _hashable_representation(self,data):
         #in the future, a "library" of representation generators could be usable
         #for efficiency gains
-        ioStream = cStringIO.StringIO()
-        cPickle.dump(data, ioStream, protocol=cPickle.HIGHEST_PROTOCOL)
-        hashable = ioStream.getvalue()
-        ioStream.close() 
-        return hashable
+        return pickle.dumps(data, protocol=pickle.HIGHEST_PROTOCOL)
+       

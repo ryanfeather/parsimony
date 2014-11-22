@@ -34,13 +34,13 @@ class Generator(object):
                 self._generated = True
                 return self._generated_value
         else:
-            for parameter,value in self._current_parameters.iteritems():
+            for parameter,value in self._current_parameters.items():
                 if not isinstance(value,parsimony.generators.Generator):
                     parameters_store.update(self._store_keys[parameter],value)
             self._update_parameters() #parameters update needs to happen after storage since Generators get replaced
             
             self._generated_value = self.rebuild()
-            parameters_store.update(self._key,GENERATOR_DEFAULT_STORE_VALUE,self._store_keys.values())
+            parameters_store.update(self._key,GENERATOR_DEFAULT_STORE_VALUE,list(self._store_keys.values()))
             self.store(self._generated_value)
             self._generated = True
             return self._generated_value
@@ -50,7 +50,7 @@ class Generator(object):
     
     def _generate_store_keys(self):
         store_keys = {}
-        for parameter_key,parameter in self._current_parameters.iteritems():
+        for parameter_key,parameter in self._current_parameters.items():
             if isinstance(parameter,parsimony.generators.Generator):
                 store_keys[parameter_key] = parameter.key()
             else:
@@ -80,7 +80,7 @@ class Generator(object):
         
         all_values_equal = True;
         #compare values and types
-        for parameter_key,value in self._current_parameters.iteritems():
+        for parameter_key,value in self._current_parameters.items():
             if not isinstance(value,parsimony.generators.Generator):
         
                 all_values_equal &= parameters_store.compare(value,self._store_keys[parameter_key])
@@ -96,14 +96,14 @@ class Generator(object):
     def _parameters_up_to_date(self,parameters_store):
         needs_update = not self._store_matches_current(parameters_store)
         if not needs_update:
-            for parameter in self._current_parameters.itervalues():
+            for parameter in self._current_parameters.values():
                 if isinstance(parameter,parsimony.generators.Generator):
                     needs_update |= not parameter.up_to_date()
 
         return not needs_update
     
     def _update_parameters(self):
-        for parameter_key, parameter in self._current_parameters.iteritems():
+        for parameter_key, parameter in self._current_parameters.items():
                 if isinstance(parameter,parsimony.generators.Generator):
                     self._current_parameters[parameter_key] = parameter.generate()
     

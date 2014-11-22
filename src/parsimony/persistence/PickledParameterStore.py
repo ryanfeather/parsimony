@@ -19,8 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
-import cPickle
-from ObfuscatedParameterStore import ObfuscatedParameterStore
+import pickle
+from .ObfuscatedParameterStore import ObfuscatedParameterStore
 
 class PickledParameterStore(ObfuscatedParameterStore):
     '''
@@ -35,7 +35,7 @@ class PickledParameterStore(ObfuscatedParameterStore):
         self._file_name = file_name
         try:
             with open(self._file_name,'r') as pickle_file:
-                self._store_data = cPickle.load(pickle_file)
+                self._store_data = pickle.load(pickle_file)
         except IOError:  #the file didn't exist or is otherwise inaccessible, we have no choice to regenerate
             self._store_data = {}
         super(PickledParameterStore, self).__init__()
@@ -44,7 +44,7 @@ class PickledParameterStore(ObfuscatedParameterStore):
         return key in self._store_data
       
     def get_parameter_keys(self,key):
-        if key in self._store_data.keys():
+        if key in list(self._store_data.keys()):
             return self._store_data[key]['parameters']
         return {}
     
@@ -53,8 +53,8 @@ class PickledParameterStore(ObfuscatedParameterStore):
     
     def _obfuscated_update(self,key,value,parameter_keys=None):
         self._store_data[key] =  {'parameters':parameter_keys,'value':value}
-        with open(self._file_name,'w') as pickle_file:
-            cPickle.dump(self._store_data, pickle_file, protocol=cPickle.HIGHEST_PROTOCOL)
+        with open(self._file_name,'wb') as pickle_file:
+            pickle.dump(self._store_data, pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
         
     
     
