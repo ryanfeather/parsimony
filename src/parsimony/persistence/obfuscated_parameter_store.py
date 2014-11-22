@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import parsimony
-from .ParameterStore import ParameterStore
+from .parameter_store import ParameterStore
 
 
 class ObfuscatedParameterStore(ParameterStore):

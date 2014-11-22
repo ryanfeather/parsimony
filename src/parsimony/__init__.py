@@ -22,4 +22,4 @@ THE SOFTWARE.
 from . import generators
 from . import configuration
 from . import persistence
-from .Generate import generate
+from .generate import generate

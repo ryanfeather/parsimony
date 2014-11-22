@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import pickle
-from .ObfuscatedParameterStore import ObfuscatedParameterStore
+from .obfuscated_parameter_store import ObfuscatedParameterStore
 
 
 class PickledParameterStore(ObfuscatedParameterStore):

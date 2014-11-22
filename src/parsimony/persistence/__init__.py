@@ -19,8 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-from .DataObfuscator import DataObfuscator
-from .ObfuscatedParameterStore import ObfuscatedParameterStore
-from .ParameterStore import ParameterStore
-from .PickledParameterStore import PickledParameterStore
-from .SHA512Obfuscator import SHA512Obfuscator
+from .data_obfuscator import DataObfuscator
+from .obfuscated_parameter_store import ObfuscatedParameterStore
+from .parameter_store import ParameterStore
+from .pickled_parameter_store import PickledParameterStore
+from .SHA512_obfuscator import SHA512Obfuscator

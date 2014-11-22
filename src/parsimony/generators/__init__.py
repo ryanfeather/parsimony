@@ -19,6 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-from .Generator import Generator
-from .TextFile import TextFile
-from .PickledCallableWrapper import PickledCallableWrapper
+from .generator import Generator
+from .text_file import TextFile
+from .pickled_callable_wrapper import PickledCallableWrapper

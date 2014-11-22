@@ -19,35 +19,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-from parsimony.generators.Generator import Generator
+import hashlib
+from .data_obfuscator import DataObfuscator
 
-import os.path
 
-
-class TextFile(Generator):
+class SHA512Obfuscator(DataObfuscator):
     """
     classdocs
     """
 
 
-    def __init__(self, key, file_path):
+    def __init__(self):
         """
         Constructor
         """
-        self._modtime = None
-        super(TextFile, self).__init__(key, file_path=file_path)
+        super(SHA512Obfuscator, self).__init__()
 
 
-    def up_to_date(self):
-        new_mod_time = os.path.getmtime(self.get_parameter('file_path'))
-        return new_mod_time == self._modtime
-
-    def rebuild(self):
-        return self.load()
-
-    def load(self):
-        with open(self.get_parameter('file_path'), 'r') as file_handle:
-            contents = file_handle.read()
-        self._modtime = os.path.getmtime(self.get_parameter('file_path'))
-
-        return contents
+    def obfuscate(self, data):
+        hashable_representation = self._hashable_representation(data)
+        hasher = hashlib.sha512()
+        hasher.update(hashable_representation)
+        return hasher.digest()
