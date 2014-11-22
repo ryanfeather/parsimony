@@ -1,4 +1,4 @@
-'''
+"""
 Copyright (c) 2013 Ryan Feather
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,42 +18,41 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-'''
+"""
 from parsimony.generators.Generator import Generator
 import pickle
 import os
 import string
 
+
 class PickledCallableWrapper(Generator):
-    
-    def __init__(self,directory,key,function,**parameters):
-        self._function = function #keep separate references to avoid copying later
-        self._param_keys = list(parameters.keys()) 
+    def __init__(self, directory, key, function, **parameters):
+        self._function = function  # keep separate references to avoid copying later
+        self._param_keys = list(parameters.keys())
         self._store_location = self._generate_store_location(directory, key)
-        super(PickledCallableWrapper, self).__init__(key,function=function,**parameters)
+        super(PickledCallableWrapper, self).__init__(key, function=function, **parameters)
 
     def up_to_date(self):
-        #always return True - the framework will take care of updates due to parameter or function changes
-        return True  
-    
+        # always return True - the framework will take care of updates due to parameter or function changes
+        return True
+
     def rebuild(self):
-        #retrieve generated parameters
+        # retrieve generated parameters
         params = {key: self.get_parameter(key) for key in self._param_keys}
         return self._function(**params)
-            
+
     def load(self):
-        
-        with open(self._store_location,'rb') as result_file:
+        with open(self._store_location, 'rb') as result_file:
             result = pickle.load(result_file)
         return result
-    
-    def store(self,value):
-        
-        with open(self._store_location,'wb') as result_file:
-            pickle.dump(value,result_file)
-        
-    
-    def _generate_store_location(self,directory,key):
+
+    def store(self, value):
+        with open(self._store_location, 'wb') as result_file:
+            pickle.dump(value, result_file)
+
+
+    # noinspection PyMethodMayBeStatic
+    def _generate_store_location(self, directory, key):
         valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
         file_name = ''.join(c if c in valid_chars else '_' for c in key)
-        return os.path.join(directory,file_name)
+        return os.path.join(directory, file_name)

@@ -1,4 +1,4 @@
-'''
+"""
 Copyright (c) 2013 Ryan Feather
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,29 +18,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-'''
+"""
 import parsimony
 from .ParameterStore import ParameterStore
 
+
 class ObfuscatedParameterStore(ParameterStore):
-    '''
+    """
     classdocs
-    '''
+    """
 
 
     def __init__(self):
-        '''
+        """
         Constructor
-        '''
+        """
         self._obfuscator = parsimony.configuration.get_obfuscator()
         super(ObfuscatedParameterStore, self).__init__()
 
-    def compare(self,value,parameter_key):
+    def compare(self, value, parameter_key):
         obfuscated_value = self._obfuscator.obfuscate(value)
-        return self._obfuscated_compare(obfuscated_value,parameter_key)
-        
-    def update(self,key,value,parameter_keys=None):
-        obfuscated_value = self._obfuscator.obfuscate(value)
-        return self._obfuscated_update(key,obfuscated_value,parameter_keys)
+        return self._obfuscated_compare(obfuscated_value, parameter_key)
 
-    
+    def update(self, key, value, parameter_keys=None):
+        obfuscated_value = self._obfuscator.obfuscate(value)
+        return self._obfuscated_update(key, obfuscated_value, parameter_keys)
