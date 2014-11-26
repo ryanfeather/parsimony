@@ -19,15 +19,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
+from abc import ABCMeta,abstractmethod
+
 import parsimony
 from .parameter_store import ParameterStore
 
 
-class ObfuscatedParameterStore(ParameterStore):
+class ObfuscatedParameterStore(ParameterStore, metaclass=ABCMeta):
     """
     classdocs
     """
-
 
     def __init__(self):
         """
@@ -43,3 +44,4 @@ class ObfuscatedParameterStore(ParameterStore):
     def update(self, key, value, parameter_keys=None):
         obfuscated_value = self._obfuscator.obfuscate(value)
         return self._obfuscated_update(key, obfuscated_value, parameter_keys)
+

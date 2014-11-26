@@ -24,6 +24,8 @@ import os
 
 __store = None
 # TODO, move any directory creation or other initialization into the configurable objects
+
+
 def get_store():
     global __store
     if not os.path.exists('.parsimony'):

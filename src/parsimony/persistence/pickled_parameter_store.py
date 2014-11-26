@@ -28,7 +28,6 @@ class PickledParameterStore(ObfuscatedParameterStore):
     classdocs
     """
 
-
     def __init__(self, file_name):
         """
         Constructor

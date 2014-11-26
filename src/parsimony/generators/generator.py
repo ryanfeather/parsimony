@@ -4,11 +4,12 @@ Created on Jun 30, 2013
 @author: rfeather
 """
 import parsimony
+from abc import ABCMeta, abstractmethod
 
 GENERATOR_DEFAULT_STORE_VALUE = True
 
 
-class Generator(object):
+class Generator(metaclass=ABCMeta):
     """
     classdoc
     """
@@ -61,15 +62,19 @@ class Generator(object):
         return store_keys
 
     # noinspection PyMethodMayBeStatic
+    @abstractmethod
     def up_to_date(self):
         return True
 
+    @abstractmethod
     def rebuild(self):
         pass
 
+    @abstractmethod
     def load(self):
         pass
 
+    @abstractmethod
     def store(self, value):
         pass
 

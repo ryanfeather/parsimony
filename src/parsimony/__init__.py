@@ -19,7 +19,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
+
+from .generate import generate
+from .exceptions import ParsimonyException
+
 from . import generators
 from . import configuration
 from . import persistence
-from .generate import generate

@@ -20,14 +20,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+from abc import ABCMeta, abstractmethod
 
-class ParameterStore(object):
+
+class ParameterStore(metaclass=ABCMeta):
     """
     classdocs
     """
 
-    def __init__(self):
-        """
-        Constructor
-        """
+    @abstractmethod
+    def get_parameter_keys(self, key):
         pass
+
+    @abstractmethod
+    def compare(self, value, parameter_key):
+        pass
+
+    @abstractmethod
+    def update(self, key, value, parameter_keys=None):
+        pass
+

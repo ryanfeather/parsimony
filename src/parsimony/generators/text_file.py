@@ -20,6 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 from parsimony.generators import Generator
+from parsimony import ParsimonyException
 
 import os.path
 
@@ -29,14 +30,12 @@ class TextFile(Generator):
     classdocs
     """
 
-
     def __init__(self, key, file_path):
         """
         Constructor
         """
         self._modtime = None
         super(TextFile, self).__init__(key, file_path=file_path)
-
 
     def up_to_date(self):
         new_mod_time = os.path.getmtime(self.get_parameter('file_path'))
@@ -51,3 +50,15 @@ class TextFile(Generator):
         self._modtime = os.path.getmtime(self.get_parameter('file_path'))
 
         return contents
+
+    def store(self, value):
+        """
+        This is, by definition, already stored. Do nothing.
+        :param value:
+        :return:
+        """
+        pass
+
+
+
+
