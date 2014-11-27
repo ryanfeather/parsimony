@@ -12,7 +12,6 @@ Contents:
    :maxdepth: 2
 
 
-
 Indices and tables
 ==================
 
@@ -20,6 +19,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _module-docs:
 
 :mod:`parsimony`: Base classes and utilities
 =======================================================
@@ -28,15 +28,11 @@ Indices and tables
 Classes
 -------
 .. currentmodule:: parsimony
-.. autosummary::
-   :template: class.rst
+.. autoclass:: ParsimonyException
+   :no-inherited-members:
 
-   parsimony.ParsimonyException
 
 Functions
 ---------
 .. currentmodule:: parsimony
-.. autosummary::
-   :template: class.rst
-
-   parsimony.generate
+.. autofunction:: generate
