@@ -27,7 +27,7 @@ class Generator(metaclass=ABCMeta):
 
         # did not exist in keys
         # generator parameters needed updated
-        parameters_store = parsimony.configuration.get_store()
+        parameters_store = parsimony.configuration.store()
 
         if (self._key in parameters_store) and self._parameters_up_to_date(parameters_store) and self.up_to_date():
             if self._generated:
@@ -80,7 +80,7 @@ class Generator(metaclass=ABCMeta):
 
     def _store_matches_current(self, parameters_store):
         # same keys
-        store_parameters_keys = parameters_store.get_parameter_keys(self._key)
+        store_parameters_keys = parameters_store.parameter_keys(self._key)
         store_keys = set(store_parameters_keys)
         current_keys = set(self._store_keys.values())
         if store_keys != current_keys:

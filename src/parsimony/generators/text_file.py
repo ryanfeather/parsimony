@@ -52,10 +52,9 @@ class TextFile(Generator):
         return contents
 
     def store(self, value):
-        """
-        This is, by definition, already stored. Do nothing.
+        """This is, by definition, already stored. Do nothing.
+
         :param value:
-        :return:
         """
         pass
 

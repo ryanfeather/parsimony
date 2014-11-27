@@ -36,3 +36,16 @@ Functions
 ---------
 .. currentmodule:: parsimony
 .. autofunction:: generate
+
+
+:mod:`parsimony.configuration`: Sets the implementations used by parsimony.
+=======================================================
+.. automodule:: parsimony.configuration
+
+
+Functions
+---------
+.. currentmodule:: parsimony.configuration
+.. autofunction:: *
+
+
