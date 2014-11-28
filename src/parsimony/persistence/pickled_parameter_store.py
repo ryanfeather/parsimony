@@ -3,8 +3,7 @@ from .obfuscated_parameter_store import ObfuscatedParameterStore
 
 
 class PickledParameterStore(ObfuscatedParameterStore):
-    """
-    classdocs
+    """ParameterStore that stores obfuscated values in pickled format.
     """
 
     def __init__(self, file_name):
