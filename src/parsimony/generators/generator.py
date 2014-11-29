@@ -65,6 +65,7 @@ class Generator(metaclass=ABCMeta):
             self._update_parameters()  # parameters update needs to happen after storage since Generators get replaced
 
             self._generated_value = self.rebuild()
+            print(self._key)
             parameters_store.update(self._key, GENERATOR_DEFAULT_STORE_VALUE, list(self._store_keys.values()))
             self.store(self._generated_value)
             self._generated = True
@@ -145,6 +146,8 @@ class Generator(metaclass=ABCMeta):
         """
         # same keys
         store_parameters_keys = parameters_store.parameter_keys(self._key)
+        if store_parameters_keys is None:
+            return self._store_keys.values is None
         store_keys = set(store_parameters_keys)
         current_keys = set(self._store_keys.values())
         if store_keys != current_keys:

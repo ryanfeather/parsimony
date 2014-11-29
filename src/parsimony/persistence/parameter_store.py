@@ -42,3 +42,11 @@ class ParameterStore(metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def __contains__(self, key):
+        """Needed for testing via in operator
+
+        :param key:
+        :return: if parameter is in this store
+        """
+        pass
