@@ -1,4 +1,4 @@
-import pickle
+import dill
 
 from abc import ABCMeta, abstractmethod
 
@@ -14,7 +14,7 @@ class DataObfuscator(metaclass=ABCMeta):
         """
         # in the future, a "library" of representation generators could be usable
         # for efficiency gains
-        return pickle.dumps(data, protocol=pickle.HIGHEST_PROTOCOL)
+        return dill.dumps(data)
 
     @abstractmethod
     def obfuscate(self, data):

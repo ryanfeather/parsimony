@@ -12,7 +12,7 @@ class PickledParameterStore(ObfuscatedParameterStore):
         """
         self._file_name = file_name
         try:
-            with open(self._file_name, 'r') as pickle_file:
+            with open(self._file_name, 'rb') as pickle_file:
                 self._store_data = pickle.load(pickle_file)
         except IOError:  # the file didn't exist or is otherwise inaccessible, we have no choice to regenerate
             self._store_data = {}
@@ -32,4 +32,4 @@ class PickledParameterStore(ObfuscatedParameterStore):
     def _obfuscated_update(self, key, value, parameter_keys=None):
         self._store_data[key] = {'parameters': parameter_keys, 'value': value}
         with open(self._file_name, 'wb') as pickle_file:
-            pickle.dump(self._store_data, pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self._store_data, pickle_file,protocol=pickle.HIGHEST_PROTOCOL)

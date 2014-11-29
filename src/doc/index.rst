@@ -5,6 +5,9 @@
 
 Welcome to Parsimony's documentation!
 =====================================
+Parsimony is a simple, secure, and efficient way to perform persistent caching of Python function results.
+
+Many basic applications can get by with a combination of the default generator file monitors.
 
 Contents:
 
