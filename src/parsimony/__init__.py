@@ -1,3 +1,4 @@
+__version__ = 0.1
 from .generate import generate
 from .exceptions import ParsimonyException
 
