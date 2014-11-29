@@ -65,6 +65,9 @@ Classes
 .. autoclass:: PickledCallableWrapper
    :no-inherited-members:
 
+.. autoclass:: PathMonitor
+   :no-inherited-members:
+
 .. autoclass:: TextFile
    :no-inherited-members:
 
