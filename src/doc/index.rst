@@ -32,7 +32,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
    t0 = time.time()
    y = parsimony.generate('y',summer,dframe=x) #everything happens
    t1 = time.time()
-   print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
+   print('Time taken {0:1.5f}s'.format(t1-t0))
    print("y={0:}".format(y))
 
    t0 = time.time()
