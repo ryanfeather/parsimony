@@ -3,5 +3,6 @@ import parsimony
 setup(
     name="parsimony",
     version=parsimony.__version__,
-    packages=find_packages()
+    packages=find_packages(),
+    install_requires=['dill>=0.2.1']
 )
