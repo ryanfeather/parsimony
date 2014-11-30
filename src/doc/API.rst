@@ -26,6 +26,10 @@ Functions
 .. autofunction:: callable_wrapper
 .. autofunction:: obfuscator
 .. autofunction:: store
+.. autofunction:: parsimony_directory
+.. autofunction:: context_name
+.. autofunction:: set_context
+
 
 
 

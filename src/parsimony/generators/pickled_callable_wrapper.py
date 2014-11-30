@@ -1,4 +1,6 @@
 from parsimony.generators import Generator
+from parsimony.configuration import context_name, parsimony_directory
+
 import pickle
 import os
 import string
@@ -8,19 +10,20 @@ class PickledCallableWrapper(Generator):
     """ Generator for callables using pickle as the underlying storage mechanism
 
     """
-    def __init__(self, directory, key, function, **parameters):
-        """The PickledCallableWrapper is a simple way to cache arbitrary function results.
+    def __init__(self, key, function, **parameters):
+        """The PickledCallableWrapper is a simple way to cache arbitrary function results.  Results are stored in
+        the context subdirectory of the parsimony directory.
 
-        :param directory: directory to cache in
         :param key: generator key string
         :param function: callable handle
         :param parameters: key-value parameters for the callable function
         """
         self._function = function  # keep separate references to avoid copying later
         self._param_keys = list(parameters.keys())
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        self._store_location = self._generate_store_location(directory, key)
+        self._directory = os.path.join(parsimony_directory(), context_name())
+        if not os.path.exists(self._directory):
+            os.makedirs(self._directory)
+        self._store_location = self._generate_store_location(self._directory, key)
         super(PickledCallableWrapper, self).__init__(key, function=function, **parameters)
 
     def up_to_date(self):

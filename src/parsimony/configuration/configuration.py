@@ -37,12 +37,40 @@ def obfuscator():
     return __obfuscator
 
 
+def parsimony_directory():
+    """Return the directory to store parsimony data in.
+
+    :return: .parsimony
+    """
+    directory_path = '.parsimony'
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path)
+
+    return directory_path
+
+__context_name = 'Default'
+
+
+def context_name():
+    """Get the context name
+
+    :return: Current context name
+    """
+    global __context_name
+    return __context_name
+
+
+def set_context(new_context_name):
+    """Set the context name. This should be something that can be a directory name.
+    """
+    global __context_name
+    __context_name = new_context_name
+
+
 def callable_wrapper(key, function, **parameters):
     """Gets the configured call wrapper. Currently, a default of PickledCallableWrapper is chosen.
 
     :return callable_wrapper: CallableWrapper Generator object
     """
-    if not os.path.exists('.parsimony/wrapped_results'):
-        os.makedirs('.parsimony/wrapped_results')
 
-    return parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results', key, function, **parameters)
+    return parsimony.generators.PickledCallableWrapper(key, function, **parameters)

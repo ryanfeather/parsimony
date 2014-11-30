@@ -25,7 +25,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
 
    #nothing cached
    t0 = time.time()
-   x = parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results','x',pd.read_csv,filepath_or_buffer=path)
+   x = parsimony.generators.PickledCallableWrapper('x',pd.read_csv,filepath_or_buffer=path)
    t1 = time.time()
    print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
 
@@ -36,7 +36,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
    print("y={0:}".format(y))
 
    t0 = time.time()
-   x = parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results','x',pd.read_csv,filepath_or_buffer=path)
+   x = parsimony.generators.PickledCallableWrapper('x',pd.read_csv,filepath_or_buffer=path)
    t1 = time.time()
    print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
    t0 = time.time()
@@ -48,22 +48,23 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
 Prints
 ::
 
-   Time taken 0.00051s
-   Time taken 4.82472s
+   Time taken 0.00023s
+   Time taken 8.76389s
    y=12474872316
-   Time taken 0.05171s
-   Time taken 0.00056s
+   Time taken 0.05012s
+   Time taken 0.02810s
    y=12474872316
+
 
 
 However, this is not that useful of an example.  Let's run this script again immediately.
 ::
 
-   Time taken 0.00020s
-   Time taken 0.00087s
+   Time taken 0.00011s
+   Time taken 0.00061s
    y=12474872316
-   Time taken 0.00008s
-   Time taken 0.00063s
+   Time taken 0.00016s
+   Time taken 0.00060s
    y=12474872316
 
 Because intermediate results were cached, the large CSV file does not need to be read. In fact, the only computation to
