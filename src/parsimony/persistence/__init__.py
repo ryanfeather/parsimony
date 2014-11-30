@@ -1,5 +1,4 @@
 from .data_obfuscator import DataObfuscator
-from .obfuscated_parameter_store import ObfuscatedParameterStore
 from .parameter_store import ParameterStore
 from .pickled_parameter_store import PickledParameterStore
 from .SHA512_obfuscator import SHA512Obfuscator

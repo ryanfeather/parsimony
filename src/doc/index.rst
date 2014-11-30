@@ -3,98 +3,77 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Parsimony's documentation!
+Parsimony Documentation
 =====================================
-Parsimony is a simple, secure, and efficient way to perform persistent caching of Python function results.
+Parsimony is a simple and efficient way to perform persistent caching of Python function results.
 
-Many basic applications can get by with a combination of the default generator file monitors.
+Many basic applications can get by with a combination of the default generator and file monitors.
 
-Contents:
+Example
+-------
+As a toy example, let's do some task that takes a few seconds twice in one session.
+
+::
+
+   import pandas as pd
+   import time
+   import parsimony
+
+   summer  = lambda dframe: dframe['SalePrice'].sum() #helper function
+
+   path = parsimony.generators.PathMonitor('myfile','Train.csv')#>100MB
+
+   #nothing cached
+   t0 = time.time()
+   x = parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results','x',pd.read_csv,filepath_or_buffer=path)
+   t1 = time.time()
+   print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
+
+   t0 = time.time()
+   y = parsimony.generate('y',summer,dframe=x) #everything happens
+   t1 = time.time()
+   print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
+   print("y={0:}".format(y))
+
+   t0 = time.time()
+   x = parsimony.generators.PickledCallableWrapper('.parsimony/wrapped_results','x',pd.read_csv,filepath_or_buffer=path)
+   t1 = time.time()
+   print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
+   t0 = time.time()
+   y = parsimony.generate('y',summer,dframe=x) #retrieve from memory cache
+   t1 = time.time()
+   print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, cached
+   print("y={0:}".format(y))
+
+Prints
+::
+   Time taken 0.00051s
+   Time taken 4.82472s
+   y=12474872316
+   Time taken 0.05171s
+   Time taken 0.00056s
+   y=12474872316
+
+
+However, this is not that useful of an example.  Let's run this script again immediately.
+::
+   Time taken 0.00020s
+   Time taken 0.00087s
+   y=12474872316
+   Time taken 0.00008s
+   Time taken 0.00063s
+   y=12474872316
+
+Because intermediate results were cached, the large CSV file does not need to be read. In fact, the only computation to
+get y is a check that parameters are up to date. The parameter store is read and the value of y is retrieved directly.
+
+API
+===
 
 .. toctree::
-   :maxdepth: 2
+   :titlesonly:
 
+   API Docs <API>
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. _module-docs:
-
-:mod:`parsimony`: Base classes and utilities
-=============================================
-.. automodule:: parsimony
-
-Classes
--------
-.. currentmodule:: parsimony
-.. autoclass:: ParsimonyException
-   :no-inherited-members:
-
-
-Functions
----------
-.. currentmodule:: parsimony
-.. autofunction:: generate
-
-
-:mod:`parsimony.configuration`: Sets the implementations used by parsimony.
-===========================================================================
-.. automodule:: parsimony.configuration
-
-
-Functions
----------
-.. currentmodule:: parsimony.configuration
-.. autofunction:: callable_wrapper
-.. autofunction:: obfuscator
-.. autofunction:: store
-
-
-
-:mod:`parsimony.generators`: Definition of generator functionality and some basic generators.
-=============================================================================================
-.. automodule:: parsimony.generators
-
-Classes
--------
-.. currentmodule:: parsimony.generators
-.. autoclass:: Generator
-   :no-inherited-members:
-
-.. autoclass:: PickledCallableWrapper
-   :no-inherited-members:
-
-.. autoclass:: PathMonitor
-   :no-inherited-members:
-
-.. autoclass:: TextFile
-   :no-inherited-members:
-
-
-:mod:`parsimony.persistence`: Storage and retrieval mechanisms
-==============================================================
-.. automodule:: parsimony.persistence
-
-Classes
--------
-.. currentmodule:: parsimony.persistence
-.. autoclass:: DataObfuscator
-   :no-inherited-members:
-
-.. autoclass:: SHA512Obfuscator
-   :no-inherited-members:
-
-.. autoclass:: ParameterStore
-   :no-inherited-members:
-
-.. autoclass:: ObfuscatedParameterStore
-   :no-inherited-members:
-
-.. autoclass:: PickledParameterStore
-   :no-inherited-members:
 
 

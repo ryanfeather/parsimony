@@ -18,6 +18,8 @@ class PickledCallableWrapper(Generator):
         """
         self._function = function  # keep separate references to avoid copying later
         self._param_keys = list(parameters.keys())
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         self._store_location = self._generate_store_location(directory, key)
         super(PickledCallableWrapper, self).__init__(key, function=function, **parameters)
 

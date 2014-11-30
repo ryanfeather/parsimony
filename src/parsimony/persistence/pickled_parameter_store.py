@@ -1,9 +1,9 @@
 import pickle
-from .obfuscated_parameter_store import ObfuscatedParameterStore
+from . import ParameterStore
 
 
-class PickledParameterStore(ObfuscatedParameterStore):
-    """ParameterStore that stores obfuscated values in pickled format.
+class PickledParameterStore(ParameterStore):
+    """ParameterStore that stores values in pickled format.
     """
 
     def __init__(self, file_name):
@@ -26,10 +26,10 @@ class PickledParameterStore(ObfuscatedParameterStore):
             return self._store_data[key]['parameters']
         return {}
 
-    def _obfuscated_compare(self, value, parameter_key):
+    def compare(self, value, parameter_key):
         return value == self._store_data[parameter_key]['value']
 
-    def _obfuscated_update(self, key, value, parameter_keys=None):
+    def update(self, key, value, parameter_keys=None):
         self._store_data[key] = {'parameters': parameter_keys, 'value': value}
         with open(self._file_name, 'wb') as pickle_file:
             pickle.dump(self._store_data, pickle_file,protocol=pickle.HIGHEST_PROTOCOL)

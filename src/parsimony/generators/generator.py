@@ -50,8 +50,9 @@ class Generator(metaclass=ABCMeta):
         # did not exist in keys
         # generator parameters needed updated
         parameters_store = parsimony.configuration.store()
-
-        if (self._key in parameters_store) and self._parameters_up_to_date(parameters_store) and self.up_to_date():
+        obfuscator = parsimony.configuration.obfuscator()
+        
+        if (self._key in parameters_store) and self._parameters_up_to_date(parameters_store,obfuscator) and self.up_to_date():
             if self._generated:
                 return self._generated_value
             else:
@@ -61,12 +62,12 @@ class Generator(metaclass=ABCMeta):
         else:
             for parameter, value in self._current_parameters.items():
                 if not isinstance(value, parsimony.generators.Generator):
-                    parameters_store.update(self._store_keys[parameter], value)
+                    parameters_store.update(self._store_keys[parameter], obfuscator.obfuscate(value))
             self._update_parameters()  # parameters update needs to happen after storage since Generators get replaced
 
             self._generated_value = self.rebuild()
             
-            parameters_store.update(self._key, GENERATOR_DEFAULT_STORE_VALUE, list(self._store_keys.values()))
+            parameters_store.update(self._key, obfuscator.obfuscate(GENERATOR_DEFAULT_STORE_VALUE), list(self._store_keys.values()))
             self.store(self._generated_value)
             self._generated = True
             return self._generated_value
@@ -136,7 +137,7 @@ class Generator(metaclass=ABCMeta):
         """
         pass
 
-    def _store_matches_current(self, parameters_store):
+    def _store_matches_current(self, parameters_store,obfuscator):
         """Compares the parameter_store values to the current parameters.
 
         Checks store key equality and value equality of non-Generator parameters. Generator parameters
@@ -157,7 +158,7 @@ class Generator(metaclass=ABCMeta):
         # compare values and types
         for parameter_key, value in self._current_parameters.items():
             if not isinstance(value, parsimony.generators.Generator):
-                all_values_equal &= parameters_store.compare(value, self._store_keys[parameter_key])
+                all_values_equal &= parameters_store.compare(obfuscator.obfuscate(value), self._store_keys[parameter_key])
 
         return all_values_equal
 
@@ -176,13 +177,13 @@ class Generator(metaclass=ABCMeta):
         """
         return self._current_parameters[parameter_key]
 
-    def _parameters_up_to_date(self, parameters_store):
+    def _parameters_up_to_date(self, parameters_store,obfuscator):
         """ Internal method that checks generator and non-generator parameters for being up-to-date.
 
         :param parameters_store:
         :return: True if no update is needed, otherwise False
         """
-        needs_update = not self._store_matches_current(parameters_store)
+        needs_update = not self._store_matches_current(parameters_store,obfuscator)
         if not needs_update:
             for parameter in self._current_parameters.values():
                 if isinstance(parameter, parsimony.generators.Generator):

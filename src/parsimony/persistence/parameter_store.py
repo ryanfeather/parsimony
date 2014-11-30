@@ -35,10 +35,10 @@ class ParameterStore(metaclass=ABCMeta):
 
         Must be overridden by subclasses.
 
-        :param key:key to of object to store
+        :param key: key  of object to store
         :param value: value of object to store
         :param parameter_keys: keys of parameters for generator parameter values
-        :return:
+   
         """
         pass
 
