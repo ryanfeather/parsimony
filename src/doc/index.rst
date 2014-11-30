@@ -47,6 +47,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
 
 Prints
 ::
+
    Time taken 0.00051s
    Time taken 4.82472s
    y=12474872316
@@ -57,6 +58,7 @@ Prints
 
 However, this is not that useful of an example.  Let's run this script again immediately.
 ::
+
    Time taken 0.00020s
    Time taken 0.00087s
    y=12474872316
@@ -75,5 +77,10 @@ API
 
    API Docs <API>
 
+Get Parsimony
+=============
 
+.. toctree::
+   :titlesonly:
 
+   Installation <install>
