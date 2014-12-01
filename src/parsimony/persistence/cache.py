@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 
 
-class ParameterStore(metaclass=ABCMeta):
-    """Interface of a parameter store object.  ParameterStores are responsible for persisting parameter values
+class Cache(metaclass=ABCMeta):
+    """Interface of a Cache object.  Cache's are responsible for persisting parameter values
     and determining parameter equality.
     """
 

@@ -1,22 +1,25 @@
 import pickle
-from . import ParameterStore
+from . import Cache
 
 
-class PickledParameterStore(ParameterStore):
-    """ParameterStore that stores values in pickled format.
+class MemCache(Cache):
+    """Parameter Cache that will bring parameters from a store into local memory if it exists and persist updates to
+    the store.
     """
 
-    def __init__(self, file_name):
+    def __init__(self, store):
+        """Initialize by reading from the store
+
+        :param: Store object
         """
-        Constructor
-        """
-        self._file_name = file_name
+
+        self._store = store
         try:
-            with open(self._file_name, 'rb') as pickle_file:
-                self._store_data = pickle.load(pickle_file)
+            self._store_data = self._store.read()
         except IOError:  # the file didn't exist or is otherwise inaccessible, we have no choice to regenerate
             self._store_data = {}
-        super(PickledParameterStore, self).__init__()
+
+        super().__init__()
 
     def __contains__(self, key):
         return key in self._store_data
@@ -30,6 +33,11 @@ class PickledParameterStore(ParameterStore):
         return value == self._store_data[parameter_key]['value']
 
     def update(self, key, value, parameter_keys=None):
+        """Update the memory cache and store
+
+        :param key: key of object to store
+        :param value: value of object to store
+        :param parameter_keys: keys for generator parameters
+        """
         self._store_data[key] = {'parameters': parameter_keys, 'value': value}
-        with open(self._file_name, 'wb') as pickle_file:
-            pickle.dump(self._store_data, pickle_file,protocol=pickle.HIGHEST_PROTOCOL)
+        self._store.write(self._store_data)

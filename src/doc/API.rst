@@ -26,6 +26,7 @@ Functions
 .. autofunction:: callable_wrapper
 .. autofunction:: obfuscator
 .. autofunction:: store
+.. autofunction:: cache
 .. autofunction:: parsimony_directory
 .. autofunction:: context_name
 .. autofunction:: set_context
@@ -43,7 +44,7 @@ Classes
 .. autoclass:: Generator
    :no-inherited-members:
 
-.. autoclass:: PickledCallableWrapper
+.. autoclass:: StoredCallableWrapper
    :no-inherited-members:
 
 .. autoclass:: PathMonitor
@@ -66,8 +67,14 @@ Classes
 .. autoclass:: SHA512Obfuscator
    :no-inherited-members:
 
-.. autoclass:: ParameterStore
+.. autoclass:: Store
    :no-inherited-members:
 
-.. autoclass:: PickledParameterStore
+.. autoclass:: PickleStore
+   :no-inherited-members:
+
+.. autoclass:: Cache
+   :no-inherited-members:
+
+.. autoclass:: MemCache
    :no-inherited-members:

@@ -5,21 +5,33 @@ various parsimony base objects. Currently, these objects are all singletons and 
 import parsimony
 import os
 
+
 __store = None
-# TODO, move any directory creation or other initialization into the configurable objects
 
 
-def store():
-    """Gets the configured parameter store. Currently, a default of PickledParameterStore is chosen.
+def store(key):
+    """Gets the configured default store. Currently, a default of PickledStore is chosen.
 
-    :return store: ParameterStore object
+    :return store: Store object
     """
     global __store
-    if not os.path.exists('.parsimony'):
-        os.makedirs('.parsimony')
     if __store is None:
-        __store = parsimony.persistence.PickledParameterStore('.parsimony/p_store')
+        __store = parsimony.persistence.PickleStore(key)
     return __store
+
+
+__cache = None
+
+
+def cache():
+    """Returns the configured cache.  Currently, a default of MemCache is returned
+
+    :return:
+    """
+    global __cache
+    if __cache is None:
+        __cache = parsimony.persistence.MemCache( parsimony.persistence.PickleStore('p_store'))
+    return __cache
 
 
 __obfuscator = None
@@ -73,4 +85,15 @@ def callable_wrapper(key, function, **parameters):
     :return callable_wrapper: CallableWrapper Generator object
     """
 
-    return parsimony.generators.PickledCallableWrapper(key, function, **parameters)
+    return parsimony.generators.StoredCallableWrapper(key, function, **parameters)
+
+def reset():
+    """Set the configuration back to the default state. Useful for testing."""
+    global __context_name
+    global __store
+    global __cache
+    global __obfuscator
+    __context_name = "Default"
+    __store = None
+    __cache = None
+    __obfuscator = None

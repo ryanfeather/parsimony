@@ -14,8 +14,8 @@ class PathMonitor(Generator):
         :param key: generator key
         :param file_path: file to track and generate
         """
-        self._modtime = None
-        super(PathMonitor, self).__init__(key, file_path=file_path)
+        mod_time = os.path.getmtime(file_path)
+        super(PathMonitor, self).__init__(key, file_path=file_path, mod_time=mod_time)
 
     def up_to_date(self):
         """Determines if the file has been modified.
@@ -23,28 +23,25 @@ class PathMonitor(Generator):
         :return: If file timestamp has changed or not
         """
         new_mod_time = os.path.getmtime(self.get_parameter('file_path'))
-        return new_mod_time == self._modtime
-
-    def store(self, value):
-        """This is by definition already stored. Do nothing.
-        """
-        pass
+        return new_mod_time == self.get_parameter('mod_time')
 
     def rebuild(self):
-        """Loads the file data.
-
-        :return: self.load()
+        """Returns the path
+        :return: the path
         """
-        return self.load()
-
-    def load(self):
-        """Reads all of the file contents into a string.
-
-        :return: text file contents
-        """
-        self._modtime = os.path.getmtime(self.get_parameter('file_path'))
 
         return self.get_parameter('file_path')
+
+    def load(self):
+        """No need to deal with persistence since this generator is completely defined by it's parameters.
+        :return: the path
+        """
+        return self.get_parameter('file_path')
+
+    def dump(self, value):
+        """No need to deal with persistence since this generator is completely defined by it's parameters.
+        """
+        return
 
 
 class TextFile(Generator):
@@ -63,10 +60,6 @@ class TextFile(Generator):
         super(TextFile, self).__init__(key, file_path=self._file_path_monitor)
 
     def up_to_date(self):
-        """Determines if the file has been modified.
-
-        :return: If file timestamp has changed or not
-        """
         return self._file_path_monitor.up_to_date()
 
     def rebuild(self):
@@ -81,16 +74,12 @@ class TextFile(Generator):
 
         :return: text file contents
         """
-        with open(self._file_path_monitor.load(), 'r') as file_handle:
+        with open(self._file_path_monitor.generate(), 'r') as file_handle:
             contents = file_handle.read()
 
         return contents
 
-    def store(self, value):
+    def dump(self, value):
         """This is by definition already stored. Do nothing.
         """
-        pass
-
-
-
-
+        return
