@@ -25,7 +25,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
 
    #nothing cached
    t0 = time.time()
-   x = parsimony.generators.PickledCallableWrapper('x',pd.read_csv,filepath_or_buffer=path)
+   x = parsimony.generators.StoredCallableWrapper('x',pd.read_csv,filepath_or_buffer=path
    t1 = time.time()
    print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
 
@@ -36,7 +36,7 @@ As a toy example, let's do some task that takes a few seconds twice in one sessi
    print("y={0:}".format(y))
 
    t0 = time.time()
-   x = parsimony.generators.PickledCallableWrapper('x',pd.read_csv,filepath_or_buffer=path)
+   x = parsimony.generators.StoredCallableWrapper('x',pd.read_csv,filepath_or_buffer=path)
    t1 = time.time()
    print('Time taken {0:1.5f}s'.format(t1-t0))#nothing happened, default lazy init
    t0 = time.time()
