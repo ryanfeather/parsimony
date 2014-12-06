@@ -9,9 +9,10 @@ classifiers = [
     'Programming Language :: Python :: 3.4'
 ]
 
-exec(open('release.py').read())
+exec(open('parsimony/release.py').read())
 
 setup(
+
     name="parsimony",
     version=__version__,
     packages=find_packages(),
