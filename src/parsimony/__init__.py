@@ -1,4 +1,4 @@
-__version__ = '0.3.0'
+from .release import __version__
 from .generate import generate
 from .exceptions import ParsimonyException
 
