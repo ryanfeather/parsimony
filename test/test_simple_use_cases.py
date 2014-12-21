@@ -50,7 +50,6 @@ class SimpleUseCasesTest(unittest.TestCase):
 
         self.assertEqual(TestEvaluationUtils.STRING2, result)
 
-
     def test_generate_from_parameters(self):
         result = parsimony.generate('test_result', self.mock, key_param=TestEvaluationUtils.STRING1)
         self.assertEqual(TestEvaluationUtils.RESULT1, result)
@@ -65,6 +64,22 @@ class SimpleUseCasesTest(unittest.TestCase):
         # make sure that the state has been updated to expect result2
         result = parsimony.generate('test_result', self.mock, key_param=TestEvaluationUtils.STRING2)
         self.assertEqual(TestEvaluationUtils.RESULT2, result)
+        self.assertEqual(2, self.mock.get_call_count())
+
+    def test_multil_generators_from_parameters(self):
+        gen1 = parsimony.generators.StoredCallableWrapper('test_result', self.mock, key_param=TestEvaluationUtils.STRING1)
+        result = gen1.generate()
+        self.assertEqual(TestEvaluationUtils.RESULT1, result)
+
+        self.assertEqual(1, self.mock.get_call_count())
+        gen2 = parsimony.generators.StoredCallableWrapper('test_result2', self.mock, key_param=TestEvaluationUtils.STRING2)
+        result = gen2.generate()
+        self.assertEqual(TestEvaluationUtils.RESULT2, result)
+        self.assertEqual(2, self.mock.get_call_count())
+
+        gen3 = parsimony.generators.StoredCallableWrapper('test_result', self.mock, key_param=TestEvaluationUtils.STRING1)
+        result = gen3.generate()
+        self.assertEqual(TestEvaluationUtils.RESULT1, result)
         self.assertEqual(2, self.mock.get_call_count())
 
     #

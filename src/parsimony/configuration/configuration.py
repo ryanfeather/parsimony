@@ -6,7 +6,7 @@ import parsimony
 import os
 
 
-__store = None
+__store = {}
 
 
 def store(key):
@@ -16,8 +16,12 @@ def store(key):
     """
     global __store
     if __store is None:
-        __store = parsimony.persistence.PickleStore(key)
-    return __store
+        __store = {}
+
+    if key not in __store:
+        __store[key] = parsimony.persistence.PickleStore(key)
+
+    return __store[key]
 
 
 __cache = None
@@ -30,7 +34,7 @@ def cache():
     """
     global __cache
     if __cache is None:
-        __cache = parsimony.persistence.MemCache( parsimony.persistence.PickleStore('p_store'))
+        __cache = parsimony.persistence.MemCache(parsimony.persistence.PickleStore('p_store'))
     return __cache
 
 
