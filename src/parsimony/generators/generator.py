@@ -81,12 +81,10 @@ class Generator(metaclass=ABCMeta):
                 if not isinstance(value, parsimony.generators.Generator):
                     self._cache.update(self._cache_keys[parameter], self._obfuscator.obfuscate(value))
             self._update_parameters()  # parameters update needs to happen after storage since Generators get replaced
-
-            self._generated_value = self.rebuild()
-            
-            self._cache.update(self._key, self._obfuscator.obfuscate(GENERATOR_DEFAULT_STORE_VALUE), list(self._cache_keys.values()))
+            self._generated_value = self.rebuild()       
             self.dump(self._generated_value)
             self._generated = True
+            self._cache.update(self._key, self._obfuscator.obfuscate(GENERATOR_DEFAULT_STORE_VALUE), list(self._cache_keys.values()))
             return self._generated_value
 
     def _mangled_parameter_key(self, parameter_key):
@@ -172,7 +170,6 @@ class Generator(metaclass=ABCMeta):
         for parameter_key, value in self._current_parameters.items():
             if not isinstance(value, parsimony.generators.Generator):
                 all_values_equal &= self._cache.compare(self._obfuscator.obfuscate(value), self._cache_keys[parameter_key])
-
         return all_values_equal
 
     def key(self):
