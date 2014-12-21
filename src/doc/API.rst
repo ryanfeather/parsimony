@@ -13,7 +13,7 @@ Functions
 ---------
 .. currentmodule:: parsimony
 .. autofunction:: generate
-
+.. autofunction:: mark_dirty
 
 :mod:`parsimony.configuration`: Sets the implementations used by parsimony.
 ===========================================================================

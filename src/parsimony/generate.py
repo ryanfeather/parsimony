@@ -1,5 +1,7 @@
 import parsimony
 
+__dirty_list = set()
+
 
 def generate(key, function, **parameters):
     """Generates the key value using the function and supplied parameters.
@@ -11,3 +13,36 @@ def generate(key, function, **parameters):
     """
     wrapper = parsimony.configuration.callable_wrapper(key, function, **parameters)
     return wrapper.generate()
+
+
+def mark_dirty(key):
+    """Mark the key for mandatory regeneration.
+
+    This can be done at any time before or after a generator is executed.  The value for the generator will be removed
+    from any underlying, attached, stores and caches if needed then regenerated upon a generate() call
+
+    :param key:
+    :return:
+    """
+    global __dirty_list
+    __dirty_list.add(key)
+
+
+def clean(key):
+    """ Tell parsimony that the value of the key is clean.
+
+    :param key: key of a clean generator
+    """
+    global __dirty_list
+    __dirty_list.discard(key)
+
+
+def dirty(key):
+    """Tell if the generator key is dirty or not.
+
+    :param key:
+    :return: True or False
+    """
+    global __dirty_list
+    return key in __dirty_list
+

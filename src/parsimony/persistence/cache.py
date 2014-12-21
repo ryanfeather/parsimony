@@ -31,7 +31,7 @@ class Cache(metaclass=ABCMeta):
 
     @abstractmethod
     def update(self, key, value, parameter_keys=None):
-        """ Store new value for the paramater.
+        """ Store new value for the parameter.
 
         Must be overridden by subclasses.
 
@@ -50,3 +50,14 @@ class Cache(metaclass=ABCMeta):
         :return: if parameter is in this store
         """
         pass
+
+    @abstractmethod
+    def __delitem__(self, key):
+        """ Used to implement a del index operator.
+
+        Must be overriden by subclasses.
+        Example: del mycache['gen_key']
+        This removes the item from all levels of the cache.
+
+        :param key: key to clear from the cache
+        """

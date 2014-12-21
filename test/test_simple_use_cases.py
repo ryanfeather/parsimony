@@ -12,6 +12,7 @@ import time
 import shutil
 import importlib
 
+
 class SimpleUseCasesTest(unittest.TestCase):
     def setUp(self):
         self.mock = TestEvaluationUtils.MockGenerationProcess()

@@ -6,7 +6,7 @@ import parsimony
 import os
 
 
-__store = {}
+__stores = {}
 
 
 def store(key):
@@ -14,14 +14,14 @@ def store(key):
 
     :return store: Store object
     """
-    global __store
-    if __store is None:
-        __store = {}
+    global __stores
+    if __stores is None:
+        __stores = {}
 
-    if key not in __store:
-        __store[key] = parsimony.persistence.PickleStore(key)
+    if key not in __stores:
+        __stores[key] = parsimony.persistence.PickleStore(key)
 
-    return __store[key]
+    return __stores[key]
 
 
 __cache = None
@@ -94,10 +94,10 @@ def callable_wrapper(key, function, **parameters):
 def reset():
     """Set the configuration back to the default state. Useful for testing."""
     global __context_name
-    global __store
+    global __stores
     global __cache
     global __obfuscator
     __context_name = "Default"
-    __store = None
+    __stores = None
     __cache = None
     __obfuscator = None

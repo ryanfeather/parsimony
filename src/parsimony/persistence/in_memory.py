@@ -24,6 +24,10 @@ class MemCache(Cache):
     def __contains__(self, key):
         return key in self._store_data
 
+    def __delitem__(self, key):
+        del self._store_data[key]
+        self._store.write(self._store_data)
+
     def parameter_keys(self, key):
         if key in list(self._store_data.keys()):
             return self._store_data[key]['parameters']

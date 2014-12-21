@@ -58,8 +58,8 @@ class Generator(metaclass=ABCMeta):
          version of the object first and returns it.  If not in memory, the generated object is retrieved from a
          ParameterStore and cached in memory, then returned.
 
-        If the object has been generated, but the parameters have changed, the object is regenerated and the ParameterStore
-        is overwritten.
+        If the object has been generated, but the parameters have changed, the object is regenerated and the
+        ParameterStore is overwritten.
 
         :return generated_value: The value for this generator's key.
         """
@@ -69,13 +69,19 @@ class Generator(metaclass=ABCMeta):
         # did not exist in keys
         # generator parameters needed updated
 
-        if (self._key in self._cache) and self._parameters_up_to_date() and self.up_to_date():
-            if self._generated:
-                return self._generated_value
-            else:
+        dirty = parsimony.dirty(self._key)
+        if dirty:
+            self._generated = False
+            self._generated_value = None
+            try:
+                del self._cache[self._key]
+            except KeyError:
+                pass # throw all other errors, but a key error just means we weren't cached yet
+
+        if (self._key in self._cache) and self._parameters_up_to_date() and self.up_to_date() and not dirty:
+            if not self._generated:
                 self._generated_value = self.load()
                 self._generated = True
-                return self._generated_value
         else:
             for parameter, value in self._current_parameters.items():
                 if not isinstance(value, parsimony.generators.Generator):
@@ -84,8 +90,11 @@ class Generator(metaclass=ABCMeta):
             self._generated_value = self.rebuild()       
             self.dump(self._generated_value)
             self._generated = True
-            self._cache.update(self._key, self._obfuscator.obfuscate(GENERATOR_DEFAULT_STORE_VALUE), list(self._cache_keys.values()))
-            return self._generated_value
+            self._cache.update(self._key, self._obfuscator.obfuscate(GENERATOR_DEFAULT_STORE_VALUE),
+                               list(self._cache_keys.values()))
+            parsimony.clean(self._key)
+
+        return self._generated_value
 
     def _mangled_parameter_key(self, parameter_key):
         """
@@ -196,7 +205,7 @@ class Generator(metaclass=ABCMeta):
         if not needs_update:
             for parameter in self._current_parameters.values():
                 if isinstance(parameter, parsimony.generators.Generator):
-                    needs_update |= not parameter.up_to_date()
+                    needs_update |= not parameter.up_to_date() or parsimony.dirty(parameter.key())
 
         return not needs_update
 

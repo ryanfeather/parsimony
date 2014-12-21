@@ -32,7 +32,7 @@ class PickleStore(Store):
         super().__init__(key)
 
     def read(self):
-        """Pickle load the stored value"
+        """Pickle load the stored value
         """
         with open(self._store_location, 'rb') as result_file:
             result = pickle.load(result_file)
