@@ -6,7 +6,7 @@ Created on Sat Apr  4 14:51:19 2015
 """
 
 import parsimony
-
+import os
 
 class MockCache(parsimony.persistence.MemCache):
     pass
@@ -29,3 +29,10 @@ def test_update():
     assert(parsimony.configuration.context_name()=='goo')
     parsimony.configuration.update_configuration(**{parsimony.configuration.CACHE:MockCache})
     assert(isinstance(parsimony.configuration.cache(),MockCache))
+    parsimony.configuration.update_configuration(**{parsimony.configuration.STORE:MockStore})
+    assert(isinstance(parsimony.configuration.store('boo'),MockStore))
+
+def test_set_configuration_file():
+    file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)),'config_for_test.py')
+    parsimony.configuration.set_configuration_file(file_name)
+    assert(parsimony.configuration.context_name()=='fromfile')

@@ -4,7 +4,7 @@ various parsimony base objects. Currently, these objects are all singletons and 
 """
 import os
 import importlib
-
+import sys
 STORE  = 'store' #key for store class 
 CACHE  = 'cache' #key for cache class
 CACHE_STORE = 'cache_store' #key for cache store class
@@ -26,8 +26,9 @@ def set_configuration_file(config_file):
     """
     
     module_name, extension = os.path.splitext(config_file)
-    
-    config_module = importlib.import_module(module_name)
+    module_path,module_name = os.path.split(module_name)
+    sys.path.append(module_path)
+    config_module = importlib.__import__(module_name)
     
     update_configuration(**config_module.parsimony_configuration)
     
