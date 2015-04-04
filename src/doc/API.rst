@@ -14,6 +14,8 @@ Functions
 .. currentmodule:: parsimony
 .. autofunction:: generate
 .. autofunction:: mark_dirty
+.. autofunction:: set_defaults
+
 
 :mod:`parsimony.configuration`: Sets the implementations used by parsimony.
 ===========================================================================
@@ -30,8 +32,8 @@ Functions
 .. autofunction:: parsimony_directory
 .. autofunction:: context_name
 .. autofunction:: set_context
-
-
+.. autofunction:: set_configuration_file
+.. autofunction:: update_configuration
 
 
 :mod:`parsimony.generators`: Definition of generator functionality and some basic generators.

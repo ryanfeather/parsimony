@@ -22,7 +22,7 @@ def set_configuration_file(config_file):
     """ Extract a config based on the contents of a python file. The file should contain a dict named
     parsimony_configuration with keys from this module.
     
-    :param config_file:  path to this module
+    :param config_file:  path to the config file
     """
     
     module_name, extension = os.path.splitext(config_file)
